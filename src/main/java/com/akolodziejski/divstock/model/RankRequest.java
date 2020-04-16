@@ -6,16 +6,12 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Data
-@Entity(name="ranks")
-public class Rank {
+@Entity(name="rank_requests")
+public class RankRequest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long result;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "stock_id", nullable = false)
-    @JsonIgnore
-    private Stock stock;
+    private String status;
+    private String ticker;
 }

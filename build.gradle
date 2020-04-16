@@ -1,6 +1,7 @@
 plugins {
 	id 'org.springframework.boot' version '2.2.6.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id "io.freefair.lombok" version "5.0.0-rc6"
 	id 'java'
 }
 
@@ -16,6 +17,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 	compile group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {

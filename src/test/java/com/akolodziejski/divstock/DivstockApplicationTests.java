@@ -1,5 +1,8 @@
 package com.akolodziejski.divstock;
 
+import com.akolodziejski.divstock.model.Rank;
+import com.akolodziejski.divstock.services.RankService;
+import com.akolodziejski.divstock.services.TickersService;
 import com.akolodziejski.divstock.services.markers.PayoutRatioMarker;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +12,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @SpringBootTest
 class DivstockApplicationTests {
@@ -19,7 +26,10 @@ class DivstockApplicationTests {
 	private RestTemplate restTemplate;
 
 	@Autowired
-	private PayoutRatioMarker payoutRatioMarker;
+	private RankService rankService;
+
+	@Autowired
+	private TickersService tickersService;
 
 	@Test
 	void contextLoads() {
@@ -29,8 +39,18 @@ class DivstockApplicationTests {
 	}
 
 	@Test
-	void markByPayoutRatioTest() {
-		Double markerResoult = payoutRatioMarker.markStock("MCD");
+	void markAllSp500() {
+		var tickers = listOf(tickersService.getTickers().stream().limit(10));
+		var ranks = rankService.generateRanks(tickers);
+
+	}
+
+	private Comparator<Rank> getRankComparator() {
+		return (f, s) -> (int) (f.getResult() - s.getResult());
+	}
+
+	private <T> List<T> listOf(Stream<T> stream) {
+		return stream.collect(Collectors.toList());
 	}
 
 }
