@@ -38,5 +38,4 @@ public class RanksController {
     public void requestForRank(@RequestBody final RankRequest rankRequest) {
         rankRequestService.queueRequest(rankRequest);
     }
-
 }

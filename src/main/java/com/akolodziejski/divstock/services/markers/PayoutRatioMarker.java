@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,9 +21,10 @@ public class PayoutRatioMarker implements StockMarker {
     RestTemplate restTemplate;
 
     @Override
+    @Cacheable("rank")
     public Double markStock(String ticker) {
 
-        var metrics = restTemplate.getForObject( SOURCE_URL + ticker, CompanyKeyMetrics.class).getMetrics();
+        var metrics = getMetricsWithExternalApi(ticker);
 
         if(metrics == null || metrics.isEmpty()) {
             return 0.0;
@@ -38,6 +40,11 @@ public class PayoutRatioMarker implements StockMarker {
 
         log.info("PayoutRatio marker for {} is {}.", ticker, payoutRatio);
         return 100 - payoutRatio;
+    }
+
+
+    private List<CompanyMetric> getMetricsWithExternalApi(String ticker) {
+        return restTemplate.getForObject( SOURCE_URL + ticker, CompanyKeyMetrics.class).getMetrics();
     }
 
     @Override

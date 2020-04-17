@@ -1,6 +1,6 @@
 package com.akolodziejski.divstock;
 
-import com.akolodziejski.divstock.services.amqp.Receiver;
+import com.akolodziejski.divstock.services.amqp.RankRequestListener;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
@@ -8,33 +8,29 @@ import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestTemplate;
-
-import java.time.Duration;
 
 @Configuration
 public class RabbitMqConfig {
 
-    public static final String topicExchangeName = "spring-boot-exchange";
+    public static final String rankExchange = "rankExchange";
 
-    static final String queueName = "spring-boot";
+    static final String rankGeneratorQueue = "rankGenerator";
 
     @Bean
     Queue queue() {
-        return new Queue(queueName, false);
+        return new Queue(rankGeneratorQueue, false);
     }
 
     @Bean
     TopicExchange exchange() {
-        return new TopicExchange(topicExchangeName);
+        return new TopicExchange(rankExchange);
     }
 
     @Bean
     Binding binding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with("foo.bar.#");
+        return BindingBuilder.bind(queue).to(exchange).with("rank.generator.#");
     }
 
     @Bean
@@ -42,13 +38,13 @@ public class RabbitMqConfig {
                                              MessageListenerAdapter listenerAdapter) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.setQueueNames(queueName);
+        container.setQueueNames(rankGeneratorQueue);
         container.setMessageListener(listenerAdapter);
         return container;
     }
 
     @Bean
-    MessageListenerAdapter listenerAdapter(Receiver receiver) {
-        return new MessageListenerAdapter(receiver, "receiveMessage");
+    MessageListenerAdapter listenerAdapter(RankRequestListener rankRequestListener) {
+        return new MessageListenerAdapter(rankRequestListener, "receiveMessage");
     }
 }
