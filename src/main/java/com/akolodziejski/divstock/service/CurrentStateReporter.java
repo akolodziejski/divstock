@@ -1,6 +1,7 @@
 package com.akolodziejski.divstock.service;
 
 import com.akolodziejski.divstock.model.csv.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -8,6 +9,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class CurrentStateReporter implements TransactionsProcessor{
+
+    private final NbpPlnRateProvider rateProvider;
+
+    public CurrentStateReporter(NbpPlnRateProvider rateProvider) {
+        this.rateProvider = rateProvider;
+    }
+
     @Override
     public void process(List<Transaction> transactions) {
         Map<String, List<Transaction>> symbolsToTrans = transactions.stream()
@@ -28,6 +36,8 @@ public class CurrentStateReporter implements TransactionsProcessor{
         Queue<Transaction> queue = new LinkedList<>(transactions);
         while(!queue.isEmpty()) {
             Transaction transaction = queue.poll();
+            float rate = rateProvider.getRate(transaction.getCurrency(), transaction.getDate());
+
             currentQuantity += transaction.getQuantity();
             sumProceed += transaction.getProceeds();
         }
