@@ -11,11 +11,11 @@ import java.util.Date;
 public class Transaction {
 
     //      1 = "Header"
-    private String header;
+  //  private String header;
     //        2 = "DataDiscriminator"
-    private String dataDiscriminator;
+   // private String dataDiscriminator;
     //        3 = "Asset Category"
-    private String assetCategory;
+    //private String assetCategory;
     //        4 = "Currency"
     private String currency;
     //        5 = "Symbol"

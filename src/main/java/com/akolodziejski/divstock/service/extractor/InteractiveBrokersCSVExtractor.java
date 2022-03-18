@@ -1,4 +1,4 @@
-package com.akolodziejski.divstock.service;
+package com.akolodziejski.divstock.service.extractor;
 
 import com.akolodziejski.divstock.model.csv.Transaction;
 import com.opencsv.CSVParser;
@@ -6,6 +6,7 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 
@@ -20,43 +21,31 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Component
-public class TransactionsCSVExtractor {
+@Qualifier("ib")
+public class InteractiveBrokersCSVExtractor  extends  CSVExtractor {
 
-    public List<Transaction> getTransactions(List<String> csvFiles) {
-        return csvFiles.stream().map(this::getTransactions).flatMap(List::stream).collect(Collectors.toList());
+    @Override
+    protected int getSkipLines(){
+        return 7;
     }
 
-    @SneakyThrows
-    private List<Transaction> getTransactions(String csvFile) {
-        return mapToTransactions(getReader(csvFile).readAll());
-    }
-
-    private CSVReader getReader(String csvFile) throws IOException {
-        Reader reader = Files.newBufferedReader(Path.of(csvFile));
-        CSVParser csvParser = new CSVParserBuilder().withSeparator(',').build();
-        CSVReader csvReader = new CSVReaderBuilder(reader)
-                .withSkipLines(7)
-                .withCSVParser(csvParser)
-                .build();
-        return csvReader;
-    }
-
-    private List<Transaction> mapToTransactions(List<String[]> lines) {
+    @Override
+    protected List<Transaction> mapToTransactions(List<String[]> lines) {
         return lines.stream()
                 .filter( row -> row[2].equals("Order"))
                 .filter(row ->row[3].equals("Stocks"))
                 .map(this::mapToTransaction).collect(Collectors.toList());
     }
 
-    private Transaction mapToTransaction(String[] row) {
+    protected Transaction mapToTransaction(String[] row) {
 
         return  Transaction.builder()
                 //      1 = "Header"
-                .header( row[1])
+               // .header( row[1])
                 //        2 = "DataDiscriminator"
-                .dataDiscriminator(row[2])
+                //.dataDiscriminator(row[2])
                 //        3 = "Asset Category"
-                .assetCategory(row[3])
+               // .assetCategory(row[3])
                 //        4 = "Currency"
                 .currency(row[4])
                 //        5 = "Symbol"

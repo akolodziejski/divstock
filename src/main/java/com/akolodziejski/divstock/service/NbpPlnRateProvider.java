@@ -1,32 +1,53 @@
 package com.akolodziejski.divstock.service;
 
 import com.akolodziejski.divstock.model.api.NBPCurrencyRate;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import com.akolodziejski.divstock.cache.StockPriceCache;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.text.SimpleDateFormat;
+
 import java.util.Date;
 
 @Service
 public class NbpPlnRateProvider {
 
     private static String NBP_API_RATES = "https://api.nbp.pl/api/exchangerates/rates/a/";
-    private static SimpleDateFormat NBP_API_DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
 
     private final RestTemplate restTemplate;
+    private final StockPriceCache stockPriceCache;
 
-    public NbpPlnRateProvider(RestTemplate restTemplate) {
+    public NbpPlnRateProvider(RestTemplate restTemplate, StockPriceCache stockPriceCache) {
         this.restTemplate = restTemplate;
+        this.stockPriceCache = stockPriceCache;
     }
 
     public float getRate(String currency, Date date) {
-        return restTemplate.getForObject(getApiUrl(currency, date), NBPCurrencyRate.class).getRates()
-                    .stream().findFirst().get().getMid();
+
+        Float cachedPrice = stockPriceCache.get(currency, date);
+        if(cachedPrice != null) {
+            return cachedPrice;
+        }
+
+        float price = getForNowOrPrevWorkingDay(currency, date);
+        stockPriceCache.put(currency, date, price);
+
+        return price;
+    }
+
+    private float getForNowOrPrevWorkingDay(String currency, Date date) {
+        try {
+            return restTemplate.getForObject(getApiUrl(currency, date), NBPCurrencyRate.class)
+                    .getRates().stream().findFirst().get().getMid();
+        }catch (HttpClientErrorException ex) {
+            //TODO ugly
+            return getForNowOrPrevWorkingDay(currency, Common.getPreviousWorkingDay(date));
+        }
     }
 
     private static String getApiUrl(String currency, Date date) {
-        String dateAsString = NBP_API_DATE_FORMATTER.format(date);
+        String dateAsString = Common.SIMPLE_FORMAT.format(date);
         return NBP_API_RATES + currency + "/" + dateAsString + "?format=json";
     }
 }

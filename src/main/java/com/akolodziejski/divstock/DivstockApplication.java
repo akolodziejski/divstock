@@ -1,8 +1,13 @@
 package com.akolodziejski.divstock;
 
 import com.akolodziejski.divstock.model.csv.Transaction;
-import com.akolodziejski.divstock.service.CurrentStateReporter;
-import com.akolodziejski.divstock.service.TransactionsCSVExtractor;
+import com.akolodziejski.divstock.model.reporter.PLNTransaction;
+import com.akolodziejski.divstock.service.extractor.CSVExtractor;
+import com.akolodziejski.divstock.service.extractor.InteractiveBrokersCSVExtractor;
+import com.akolodziejski.divstock.service.reporter.CurrentStateReporter;
+
+import com.akolodziejski.divstock.service.reporter.RealizedTransasctionInPln;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,10 +20,10 @@ import java.util.*;
 @SpringBootApplication(exclude={DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 public class DivstockApplication  implements CommandLineRunner {
 
-	private final TransactionsCSVExtractor transactionsCSVExtractor;
-	private final CurrentStateReporter currentStateReporter;
+	private final CSVExtractor transactionsCSVExtractor;
+	private final RealizedTransasctionInPln currentStateReporter;
 
-	public DivstockApplication(TransactionsCSVExtractor transactionsCSVExtractor, CurrentStateReporter currentStateReporter) {
+	public DivstockApplication(@Qualifier("degiro") CSVExtractor transactionsCSVExtractor, RealizedTransasctionInPln currentStateReporter) {
 		this.transactionsCSVExtractor = transactionsCSVExtractor;
 		this.currentStateReporter = currentStateReporter;
 	}
@@ -31,7 +36,11 @@ public class DivstockApplication  implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		List<Transaction> allTransactions = transactionsCSVExtractor.getTransactions(Arrays.asList(args));
-		currentStateReporter.process(allTransactions);
+		List<PLNTransaction> plnTransactions = currentStateReporter.processForYear(allTransactions, 2021);
+
+
+
+		double sum = plnTransactions.stream().mapToDouble(PLNTransaction::getGainLost).sum();
 	}
 
 }

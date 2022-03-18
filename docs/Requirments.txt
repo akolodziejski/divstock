@@ -1,0 +1,8 @@
+Typical use cases:
+- get data for PIT filing for given year
+    - sell transactions
+    - dividends
+    - options
+
+- dividends stats
+- options stats

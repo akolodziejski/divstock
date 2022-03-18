@@ -4,7 +4,7 @@ import com.akolodziejski.divstock.model.csv.Transaction;
 
 import java.util.List;
 
-public interface TransactionsProcessor {
+public interface TransactionsProcessor<T> {
 
-    void process(List<Transaction> transactions);
+    List<T> process(List<Transaction> transactions);
 }
