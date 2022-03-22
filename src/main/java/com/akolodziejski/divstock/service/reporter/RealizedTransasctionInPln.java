@@ -77,8 +77,11 @@ public class RealizedTransasctionInPln implements TransactionsProcessor<PLNTrans
 
         float soldQuantity = Math.abs(sellTransaction.getQuantity());
 
-        float totalGainLost = 0;
+
         float plnTotal = 0;
+        float plnTotalIncome = 0;
+        float plnTotalCost = 0;
+
 
 
         while(soldQuantity > 0) {
@@ -101,11 +104,15 @@ public class RealizedTransasctionInPln implements TransactionsProcessor<PLNTrans
                 float buyCost = takenStocks * headTransaction.getPrice();
                 float sellCost = takenStocks * sellTransaction.getPrice();
                 float gainLoss =  sellCost - buyCost;
-                totalGainLost += gainLoss;
+
                 //PLN
                 float plnBuyCost = buyCost * rateProvider.getRate(headTransaction.getCurrency(), getPreviousWorkingDay(headTransaction.getDate()));
                 float plnSellCost = sellCost * rateProvider.getRate(sellTransaction.getCurrency(), getPreviousWorkingDay(sellTransaction.getDate()));
                 float plnGainLost = plnSellCost - plnBuyCost;
+
+                plnTotalCost += plnBuyCost;
+                plnTotalIncome += plnSellCost;
+
                 plnTotal += plnGainLost;
 
                 log.debug(sellTransaction.getSymbol() + ": GAIN/LOSS = " + gainLoss);
@@ -118,10 +125,12 @@ public class RealizedTransasctionInPln implements TransactionsProcessor<PLNTrans
                         .build();
             }
         }
-       log.debug("{} - {}: {} pln ",sellTransaction.getDate(),  sellTransaction.getSymbol(), totalGainLost);
+       log.debug("{} - {}: {} pln ",sellTransaction.getDate(),  sellTransaction.getSymbol(), plnTotal);
 
         return PLNTransaction.builder()
                 .gainLost(plnTotal)
+                .cost(plnTotalCost)
+                .income(plnTotalIncome)
                 .sellTransation(sellTransaction)
                 .build();
     }

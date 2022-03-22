@@ -10,6 +10,8 @@ import java.util.Date;
 @Builder
 public class PLNTransaction {
     private float gainLost;
+    private float cost;
+    private float income;
     private boolean error;
     private Transaction sellTransation;
 }
