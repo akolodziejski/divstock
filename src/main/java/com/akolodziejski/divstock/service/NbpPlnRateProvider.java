@@ -30,7 +30,19 @@ public class NbpPlnRateProvider {
             return cachedPrice;
         }
 
+        // GBX => GBP case
+        boolean isGBXCase = false;
+        if ("GBX".equalsIgnoreCase(currency)) {
+            currency = "GBP";
+            isGBXCase = true;
+        }
+
         float price = getForNowOrPrevWorkingDay(currency, date);
+
+        if (isGBXCase) {
+            price = price / 100;
+        }
+
         stockPriceCache.put(currency, date, price);
 
         return price;

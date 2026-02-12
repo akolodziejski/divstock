@@ -1,4 +1,4 @@
-package com.akolodziejski.divstock.service.reporter;
+package com.akolodziejski.divstock.service.transaction;
 
 import com.akolodziejski.divstock.model.csv.Transaction;
 import com.akolodziejski.divstock.model.reporter.PLNTransaction;
@@ -42,12 +42,12 @@ public class RealizedTransasctionInPln implements TransactionsProcessor<PLNTrans
     public List<PLNTransaction> processForYear(List<Transaction> allTrasations, int year) {
         List<PLNTransaction> transactions = process(allTrasations);
         List<PLNTransaction> inYearTransactions = transactions.stream()
-                .filter(t -> t.getSellTransation().getDate().after(Common.getFirstDayForYear(year)))
-                .filter(t -> t.getSellTransation().getDate().before(Common.getFirstDayForYear(year + 1)))
+                .filter(t -> t.getStatement().getDate().after(Common.getFirstDayForYear(year)))
+                .filter(t -> t.getStatement().getDate().before(Common.getFirstDayForYear(year + 1)))
                 .collect(Collectors.toList());
 
         for(PLNTransaction tran: inYearTransactions) {
-            log.info("{}|{}", tran.getSellTransation().getSymbol(), tran.getGainLost());
+            log.info("{}|{}|{}",tran.getStatement().getDate(), tran.getStatement().getSymbol(), tran.getGainLost());
         }
 
         return inYearTransactions;
@@ -121,7 +121,7 @@ public class RealizedTransasctionInPln implements TransactionsProcessor<PLNTrans
                 return PLNTransaction.builder()
                         .error(true)
                         .gainLost(0)
-                        .sellTransation(sellTransaction)
+                        .statement(sellTransaction)
                         .build();
             }
         }
@@ -131,7 +131,7 @@ public class RealizedTransasctionInPln implements TransactionsProcessor<PLNTrans
                 .gainLost(plnTotal)
                 .cost(plnTotalCost)
                 .income(plnTotalIncome)
-                .sellTransation(sellTransaction)
+                .statement(sellTransaction)
                 .build();
     }
 }

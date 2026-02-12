@@ -1,8 +1,7 @@
 package com.akolodziejski.divstock;
 
 import com.akolodziejski.divstock.model.tax.Profit;
-import com.akolodziejski.divstock.service.reporter.DivGrowthReporter;
-import com.akolodziejski.divstock.service.tax.OptionsCalculator;
+import com.akolodziejski.divstock.service.reporter.DivGrowthChecker;
 import com.akolodziejski.divstock.service.tax.PIT38Calculator;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -12,22 +11,23 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 
 
 @SpringBootApplication(exclude={DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
-public class DivstockApplication  implements CommandLineRunner {
+public class DivstockApplicationExperiments implements CommandLineRunner {
 
-	private PIT38Calculator calculator;
+	private DivGrowthChecker calculator;
 
-	public DivstockApplication(PIT38Calculator calculator) {
+	public DivstockApplicationExperiments(DivGrowthChecker calculator) {
 		this.calculator = calculator;
 
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(DivstockApplication.class, args);
+		SpringApplication.run(DivstockApplicationExperiments.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
-		Profit profit = calculator.calculate(2023);
+		calculator.stockDetails("PEP");
+		calculator.disctinctSymbols();
 	}
 
 }

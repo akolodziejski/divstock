@@ -1,12 +1,9 @@
-package com.akolodziejski.divstock.service;
+package com.akolodziejski.divstock.service.transaction;
 
-import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
-
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 @Service

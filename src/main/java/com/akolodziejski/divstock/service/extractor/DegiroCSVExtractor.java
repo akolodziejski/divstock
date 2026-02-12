@@ -21,7 +21,16 @@ import java.util.stream.Collectors;
 
 @Component
 @Qualifier("degiro")
-public class DegiroCSVExtractor  extends  CSVExtractor{
+public class DegiroCSVExtractor  extends  CSVExtractor {
+
+//    @Override
+//    protected List<Transaction> mapToTransactions(List<String[]> lines) {
+//        List<Transaction> transactions = lines.stream()
+//                .filter(row -> row[5].equals("Dywidenda"))
+//                .map(this::mapToTransaction).collect(Collectors.toList());
+//        return transactions;
+//    }
+//x
 
     protected Transaction mapToTransaction(String[] row) {
 

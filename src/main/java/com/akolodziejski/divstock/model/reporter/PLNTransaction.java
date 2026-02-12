@@ -9,9 +9,10 @@ import java.util.Date;
 @Data
 @Builder
 public class PLNTransaction {
-    private float gainLost;
+    private float gainLost; // TODO remove
     private float cost;
     private float income;
+    private double taxPaid;
     private boolean error;
-    private Transaction sellTransation;
+    private Transaction statement;
 }
