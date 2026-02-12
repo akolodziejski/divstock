@@ -7,11 +7,11 @@ plugins {
 
 group = 'com.akolodziejski'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '17'
 
-repositories {
-	mavenCentral()
-}
+//repositories {
+//	mavenCentral()
+//}
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'

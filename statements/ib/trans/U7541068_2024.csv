@@ -1,0 +1,76 @@
+﻿Statement,Header,Field Name,Field Value
+Statement,Data,BrokerName,Interactive Brokers Ireland Limited (formerly Interactive Brokers Central Europe Zrt.)
+Statement,Data,BrokerAddress,"North Dock One, 91/92 North Wall Quay, Dublin 1"
+Statement,Data,Title,Activity Statement
+Statement,Data,Period,"January 1, 2024 - December 31, 2024"
+Statement,Data,WhenGenerated,"2025-02-15, 23:31:23 EST"
+Trades,Header,DataDiscriminator,Asset Category,Currency,Symbol,Date/Time,Quantity,T. Price,Proceeds,Comm/Fee,Code
+Trades,Data,Order,Stocks,USD,ADC,"2024-03-05, 11:57:33",20,57.27,-1145.4,-0.35425725,
+Trades,SubTotal,,Stocks,USD,ADC,,20,,-1145.4,-0.35425725,
+Trades,Data,Order,Stocks,USD,AMT,"2024-01-30, 12:28:28",2,198.505,-397.01,-0.35065725,
+Trades,SubTotal,,Stocks,USD,AMT,,2,,-397.01,-0.35065725,
+Trades,Data,Order,Stocks,USD,CCI,"2024-01-30, 12:28:54",5,108.48,-542.4,-0.34075725,
+Trades,SubTotal,,Stocks,USD,CCI,,5,,-542.4,-0.34075725,
+Trades,Data,Order,Stocks,USD,HSY,"2024-01-19, 10:06:19",3,189.55,-568.65,-0.34725725,
+Trades,SubTotal,,Stocks,USD,HSY,,3,,-568.65,-0.34725725,
+Trades,Data,Order,Stocks,USD,SBUX,"2024-04-25, 13:10:51",8,87.9,-703.2,-0.33505725,
+Trades,SubTotal,,Stocks,USD,SBUX,,8,,-703.2,-0.33505725,
+Trades,Data,Order,Stocks,USD,VICI,"2024-01-23, 15:34:02",25,30.848,-771.2,-0.35525725,
+Trades,Data,Order,Stocks,USD,VICI,"2024-04-19, 14:04:15",25,27.81,-695.25,-0.32525725,
+Trades,SubTotal,,Stocks,USD,VICI,,50,,-1466.45,-0.6805145,
+Trades,Data,Order,Stocks,USD,WPC,"2024-01-29, 15:20:03",-11,63.25,695.75,-0.34664925,
+Trades,SubTotal,,Stocks,USD,WPC,,-11,,695.75,-0.34664925,
+Trades,Total,,Stocks,USD,,,,,-4127.36,-2.75515, 
+Trades,Total,,Stocks,PLN,,,,,-16540.67135,-11.064983237, 
+Trades,Header,DataDiscriminator,Asset Category,Currency,Symbol,Date/Time,Quantity,T. Price,Proceeds,Comm in PLN,Code
+Trades,Data,Order,Forex,CAD,USD.CAD,"2024-01-30, 16:30:00",6.72488431,1.3398,-9.01,0,
+Trades,Data,Order,Forex,CAD,USD.CAD,"2024-02-01, 16:30:00",24.09053559,1.3387,-32.25,0,
+Trades,Data,Order,Forex,CAD,USD.CAD,"2024-03-04, 16:30:00",8.5973184,1.3574,-11.67,0,
+Trades,Data,Order,Forex,CAD,USD.CAD,"2024-04-29, 16:30:00",6.59541761,1.3661,-9.01,0,
+Trades,Data,Order,Forex,CAD,USD.CAD,"2024-05-01, 16:30:00",23.66256642,1.3739,-32.51,0,
+Trades,Data,Order,Forex,CAD,USD.CAD,"2024-06-04, 16:30:00",8.53319684,1.3676,-11.67,0,
+Trades,Data,Order,Forex,CAD,USD.CAD,"2024-07-30, 16:30:00",6.50541516,1.385,-9.009999999,0,
+Trades,Data,Order,Forex,CAD,USD.CAD,"2024-08-01, 16:30:00",23.43231945,1.3874,-32.509999999,0,
+Trades,Data,Order,Forex,CAD,USD.CAD,"2024-09-04, 16:30:00",8.64124398,1.3505,-11.67,0,
+Trades,SubTotal,,Forex,CAD,USD.CAD,,116.78289776,,-159.309999998,0,
+Trades,Total,,Forex,CAD,,,,,-159.309999998,0, 
+Trades,Total,,Forex,PLN,,,,,-465.232267994,0, 
+Trades,Data,Order,Forex,PLN,EUR.PLN,"2024-03-07, 20:12:35",-0.41,4.30155,1.7636355,0,
+Trades,SubTotal,,Forex,PLN,EUR.PLN,,-0.41,,1.7636355,0,
+Trades,Data,Order,Forex,PLN,GBP.PLN,"2024-04-29, 19:57:18",-0.1957,5.05665,0.989586405,0,
+Trades,SubTotal,,Forex,PLN,GBP.PLN,,-0.1957,,0.989586405,0,
+Trades,Data,Order,Forex,PLN,USD.PLN,"2024-01-30, 16:30:00",-6.72488431,4.01,26.966786087,0,
+Trades,Data,Order,Forex,PLN,USD.PLN,"2024-02-01, 16:30:00",-24.09053559,3.9697,95.632199148,0,
+Trades,Data,Order,Forex,PLN,USD.PLN,"2024-02-28, 20:26:00",-22.95349874,3.9847,91.462806417,0,
+Trades,Data,Order,Forex,PLN,USD.PLN,"2024-03-04, 16:30:00",-8.5973184,3.9817,34.231942685,0,
+Trades,Data,Order,Forex,PLN,USD.PLN,"2024-03-05, 11:58:33",230,3.9728,-913.744,0,L
+Trades,Data,Order,Forex,PLN,USD.PLN,"2024-03-07, 16:30:00",-2.94029403,3.9291,11.552709269,0,
+Trades,Data,Order,Forex,PLN,USD.PLN,"2024-03-07, 20:26:00",-8.28082808,3.9291,32.536201621,0,
+Trades,Data,Order,Forex,PLN,USD.PLN,"2024-04-19, 14:05:16",562,4.0484,-2275.2008,0,L
+Trades,Data,Order,Forex,PLN,USD.PLN,"2024-04-23, 20:18:53",-0.35563139,4.02675,1.432038708,0,
+Trades,Data,Order,Forex,PLN,USD.PLN,"2024-04-25, 13:11:51",689,4.02495,-2773.19055,0,L
+Trades,Data,Order,Forex,PLN,USD.PLN,"2024-04-29, 16:30:00",-6.59541761,4.0253,26.548534514,0,
+Trades,Data,Order,Forex,PLN,USD.PLN,"2024-05-01, 16:30:00",-23.66256642,4.0349,95.476089236,0,
+Trades,Data,Order,Forex,PLN,USD.PLN,"2024-06-04, 16:30:00",-8.53319684,3.9606,33.796579408,0,
+Trades,Data,Order,Forex,PLN,USD.PLN,"2024-07-30, 16:30:00",-6.50541516,3.9687,25.818041153,0,
+Trades,Data,Order,Forex,PLN,USD.PLN,"2024-08-01, 16:30:00",-23.43231945,3.987,93.424657631,0,
+Trades,Data,Order,Forex,PLN,USD.PLN,"2024-08-29, 16:30:00",-27.93338961,3.8677,108.037970991,0,
+Trades,Data,Order,Forex,PLN,USD.PLN,"2024-09-02, 16:30:00",-11.53522527,3.8567,44.48790331,0,
+Trades,Data,Order,Forex,PLN,USD.PLN,"2024-09-04, 16:30:00",-8.64124398,3.8575,33.333598668,0,
+Trades,SubTotal,,Forex,PLN,USD.PLN,,1290.21823512,,-5207.397291154,0,
+Trades,Total,,Forex,PLN,,,,,-5204.644069249,0, 
+Trades,Data,Order,Forex,SGD,USD.SGD,"2024-02-28, 20:26:00",22.95349874,1.3462,-30.9,0,
+Trades,Data,Order,Forex,SGD,USD.SGD,"2024-03-07, 16:30:00",2.94029403,1.3332,-3.919999999,0,
+Trades,Data,Order,Forex,SGD,USD.SGD,"2024-03-07, 20:26:00",8.28082808,1.3332,-11.04,0,
+Trades,Data,Order,Forex,SGD,USD.SGD,"2024-08-29, 16:30:00",27.93338961,1.3031,-36.399999999,0,
+Trades,Data,Order,Forex,SGD,USD.SGD,"2024-09-02, 16:30:00",11.53522527,1.3073,-15.079999999,0,
+Trades,SubTotal,,Forex,SGD,USD.SGD,,73.64323573,,-97.339999997,0,
+Trades,Total,,Forex,SGD,,,,,-97.339999997,0, 
+Trades,Total,,Forex,PLN,,,,,-288.386047991,0, 
+Trades,Data,Order,Forex,USD,EUR.USD,"2024-03-05, 11:58:33",-485,1.086065052,526.74155,0,L;P
+Trades,SubTotal,,Forex,USD,EUR.USD,,-485,,526.74155,0,
+Trades,Data,Order,Forex,USD,GBP.USD,"2024-03-05, 11:58:35",-200,1.27085,254.17,0,L
+Trades,Data,Order,Forex,USD,GBP.USD,"2024-04-25, 13:11:52",-12,1.25145,15.0174,0,L
+Trades,SubTotal,,Forex,USD,GBP.USD,,-212,,269.1874,0,
+Trades,Total,,Forex,USD,,,,,795.92895,0, 
+Trades,Total,,Forex,PLN,,,,,3162.096561285,0, 

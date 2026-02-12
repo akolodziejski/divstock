@@ -1,0 +1,67 @@
+﻿Statement,Header,Field Name,Field Value,,,,,,,,
+Statement,Data,BrokerName,,,,,,,,,
+Statement,Data,BrokerAddress,,,,,,,,,
+Statement,Data,Title,Activity Statement,,,,,,,,
+Statement,Data,Period,January 1, 2024 - December 31, 2024,,,,,,,,
+Statement,Data,WhenGenerated,2025-02-15, 23:24:37 EST,,,,,,,,
+Trades,Header,DataDiscriminator,Asset Category,Currency,Symbol,Date/Time,Quantity,T. Price,Proceeds,Comm/Fee,Code
+Trades,Data,Order,Stocks,EUR,MC,"2024-09-17, 03:06:00",2,605.1,-1210.2,-1.534969,
+Trades,SubTotal,,Stocks,EUR,MC,,2,,-1210.2,-1.534969,
+Trades,Total,,Stocks,EUR,,,,,-1210.2,-1.534969, 
+Trades,Total,,Stocks,PLN,,,,,-5172.63684,-6.5607645, 
+Trades,Data,Order,Stocks,GBP,LIO,"2024-12-27, 10:40:53",-50,4.635,231.75,-1,IA
+Trades,SubTotal,,Stocks,GBP,LIO,,-50,,231.75,-1,
+Trades,Total,,Stocks,GBP,,,,,231.75,-1, 
+Trades,Total,,Stocks,PLN,,,,,1194.369975,-5.1537, 
+Trades,Data,Order,Stocks,USD,ADM,"2024-11-11, 09:31:28",8,52.18,-417.44,-0.34264125,P
+Trades,SubTotal,,Stocks,USD,ADM,,8,,-417.44,-0.34264125,
+Trades,Data,Order,Stocks,USD,MGA,"2024-12-27, 10:48:07",-21,42.24,887.04,-0.358410962,
+Trades,SubTotal,,Stocks,USD,MGA,,-21,,887.04,-0.358410962,
+Trades,Data,Order,Stocks,USD,PAYC,"2024-12-27, 10:50:51",-2,207,414,-0.36019445,
+Trades,SubTotal,,Stocks,USD,PAYC,,-2,,414,-0.36019445,
+Trades,Data,Order,Stocks,USD,SNOW,"2024-09-16, 12:26:36",-2,111.5805,223.161,-0.357297126,IA
+Trades,SubTotal,,Stocks,USD,SNOW,,-2,,223.161,-0.357297126,
+Trades,Data,Order,Stocks,USD,TEAM,"2024-12-27, 10:45:07",-1,248.305,248.305,-0.357598129,
+Trades,SubTotal,,Stocks,USD,TEAM,,-1,,248.305,-0.357598129,
+Trades,Data,Order,Stocks,USD,TU,"2024-12-27, 10:43:29",-24,13.515,324.36,-0.369786458,P
+Trades,SubTotal,,Stocks,USD,TU,,-24,,324.36,-0.369786458,
+Trades,Total,,Stocks,USD,,,,,1679.426,-2.145928375, 
+Trades,Total,,Stocks,PLN,,,,,6825.3712491,-8.699526386, 
+Trades,Header,DataDiscriminator,Asset Category,Currency,Symbol,Date/Time,Quantity,T. Price,Proceeds,Comm in PLN,Code
+Trades,Data,Order,Forex,CAD,USD.CAD,2024-09-05, 17:00:00,-0.00243536,1.35013656,0.003288065,0,
+Trades,Data,Order,Forex,CAD,USD.CAD,2024-11-11, 09:34:38,30.44,1.39495,-42.462278,0,AFx
+Trades,Data,Order,Forex,CAD,USD.CAD,2024-11-11, 17:00:00,0.00554459,1.39270888,-0.007722,0,
+Trades,SubTotal,,Forex,CAD,USD.CAD,,30.44310923,,-42.466711935,0,
+Trades,Total,,Forex,CAD,,,,,-42.466711935,0, 
+Trades,Total,,Forex,PLN,,,,,-124.843919232,0, 
+Trades,Data,Order,Forex,GBP,EUR.GBP,2024-09-17, 03:06:00,175.26,0.8422,-147.603972,0,AFx
+Trades,Data,Order,Forex,GBP,EUR.GBP,2024-09-17, 17:00:00,2.62821309,0.84474335,-2.220165532,0,
+Trades,SubTotal,,Forex,GBP,EUR.GBP,,177.88821309,,-149.824137532,0,
+Trades,Total,,Forex,GBP,,,,,-149.824137532,0, 
+Trades,Total,,Forex,PLN,,,,,-758.304907291,0, 
+Trades,Data,Order,Forex,HKD,USD.HKD,2024-09-05, 17:00:00,-0.00039182,7.79370964,0.003053762,0,
+Trades,SubTotal,,Forex,HKD,USD.HKD,,-0.00039182,,0.003053762,0,
+Trades,Total,,Forex,HKD,,,,,0.003053762,0, 
+Trades,Total,,Forex,PLN,,,,,0.001510543,0, 
+Trades,Data,Order,Forex,PLN,EUR.PLN,2024-09-17, 03:06:00,107,kwi.08,-458.0456,0,AFx
+Trades,Data,Order,Forex,PLN,EUR.PLN,2024-09-17, 17:00:00,0.99675591,4.27548226,-4.261612202,0,
+Trades,SubTotal,,Forex,PLN,EUR.PLN,,107.99675591,,-462.307212202,0,
+Trades,Data,Order,Forex,PLN,USD.PLN,2024-09-05, 17:00:00,0.00309096,3.85535615,-0.011916732,0,
+Trades,Data,Order,Forex,PLN,USD.PLN,2024-09-17, 17:00:00,-0.24901562,3.8448462,0.957426776,0,
+Trades,Data,Order,Forex,PLN,USD.PLN,2024-11-11, 17:00:00,-0.00499075,4.09222222,0.020423258,0,
+Trades,Data,Order,Forex,PLN,USD.PLN,2024-11-11, 17:00:00,-0.00554459,4.09283624,0.022693099,0,
+Trades,Data,Order,Forex,PLN,USD.PLN,2024-11-14, 17:00:00,-4.3,4.1028552,17.64227736,0,
+Trades,SubTotal,,Forex,PLN,USD.PLN,,-4.55646,,18.630903761,0,
+Trades,Total,,Forex,PLN,,,,,-443.676308441,0, 
+Trades,Data,Order,Forex,SGD,USD.SGD,2024-09-05, 17:00:00,-0.00026377,1.30010876,0.000342935,0,
+Trades,SubTotal,,Forex,SGD,USD.SGD,,-0.00026377,,0.000342935,0,
+Trades,Total,,Forex,SGD,,,,,0.000342935,0, 
+Trades,Total,,Forex,PLN,,,,,0.001016871,0, 
+Trades,Data,Order,Forex,USD,EUR.USD,2024-09-17, 03:06:00,491.15,1.1122,-546.25703,0,AFx
+Trades,Data,Order,Forex,USD,EUR.USD,2024-11-11, 09:34:44,-27.56,1.0647,29.343132,0,AFx
+Trades,SubTotal,,Forex,USD,EUR.USD,,463.59,,-516.913898,0,
+Trades,Data,Order,Forex,USD,GBP.USD,2024-11-11, 09:36:44,-0.02,1.287,0.02574,0,AFx
+Trades,Data,Order,Forex,USD,GBP.USD,2024-11-11, 09:36:44,-173.48,1.287,223.26876,0,AFx
+Trades,SubTotal,,Forex,USD,GBP.USD,,-173.5,,223.2945,0,
+Trades,Total,,Forex,USD,,,,,-293.619398,0, 
+Trades,Total,,Forex,PLN,,,,,-1066.707127025,0, 
