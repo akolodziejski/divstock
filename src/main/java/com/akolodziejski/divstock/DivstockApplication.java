@@ -28,6 +28,7 @@ public class DivstockApplication  implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		Profit profit = calculator.calculate(2023);
+		System.out.println(profit);
 	}
 
 }

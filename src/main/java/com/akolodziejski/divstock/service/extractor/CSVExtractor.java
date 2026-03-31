@@ -9,6 +9,7 @@ import lombok.SneakyThrows;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -21,7 +22,7 @@ public abstract class CSVExtractor {
     }
 
     private CSVReader getReader(String csvFile) throws IOException {
-        Reader reader = Files.newBufferedReader(Path.of(csvFile));
+        Reader reader = Files.newBufferedReader(Path.of(csvFile), Charset.forName("ISO-8859-1"));
         CSVParser csvParser = new CSVParserBuilder().withSeparator(',').build();
         CSVReader csvReader = new CSVReaderBuilder(reader)
                 .withSkipLines(getSkipLines())
