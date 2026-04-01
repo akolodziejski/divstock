@@ -6,22 +6,36 @@ import pandas as pd
 
 
 def build_schema(dataframes: dict[str, pd.DataFrame]) -> str:
+    """Build a human-readable schema string for the LLM prompt.
+
+    Includes column names with dtypes and up to 3 sample rows per DataFrame.
+    """
     parts = []
     for name, df in dataframes.items():
-        cols = ", ".join(df.columns.tolist())
+        col_info = ", ".join(f"{col} ({dtype})" for col, dtype in zip(df.columns, df.dtypes))
         sample = df.head(3).to_string(index=False)
-        parts.append(f"{name}: columns=[{cols}]\nsample:\n{sample}")
+        parts.append(f"{name}: columns=[{col_info}]\nsample:\n{sample}")
     return "\n\n".join(parts)
 
 
 def _extract_code(response_text: str) -> str:
-    match = re.search(r"```python\s*(.*?)```", response_text, re.DOTALL)
+    """Extract Python code from a response. Handles both ```python and plain ``` fences."""
+    match = re.search(r"```(?:python)?\s*(.*?)```", response_text, re.DOTALL)
     if match:
         return match.group(1).strip()
     return response_text.strip()
 
 
 def _run_sandboxed(code: str, dataframes: dict[str, pd.DataFrame]) -> pd.DataFrame:
+    """Execute LLM-generated code in a restricted environment.
+
+    The sandbox blocks builtins (no open(), no import) but NOTE: pd.read_* functions
+    are blocked via pre-execution pattern scan rather than by restricting the pd module.
+    """
+    if re.search(r"\bpd\.read_", code):
+        raise RuntimeError(
+            "Code uses pd.read_* which is not permitted. Only use the provided df_* variables."
+        )
     allowed_globals: dict = {"__builtins__": {}, "pd": pd}
     allowed_globals.update(dataframes)
     try:
@@ -48,13 +62,19 @@ def execute(description: str, dataframes: dict[str, pd.DataFrame]) -> pd.DataFra
         "- The final line must assign to `result`\n"
         "- Do not import anything\n"
         "- Do not read files or make network calls\n"
+        "- Do not call pd.read_csv, pd.read_json, or any pd.read_* functions\n"
     )
-    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    if not api_key:
+        raise ValueError("ANTHROPIC_API_KEY environment variable is not set")
+    client = anthropic.Anthropic(api_key=api_key)
     message = client.messages.create(
         model="claude-sonnet-4-6",
-        max_tokens=1024,
+        max_tokens=2048,
         messages=[{"role": "user", "content": prompt}],
     )
+    if not message.content or not hasattr(message.content[0], "text"):
+        raise RuntimeError(f"Unexpected API response format: {message.content}")
     response_text = message.content[0].text
     code = _extract_code(response_text)
     return _run_sandboxed(code, dataframes)
