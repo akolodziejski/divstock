@@ -1,4 +1,3 @@
-import pytest
 import pandas as pd
 from pathlib import Path
 from tools.report.csv_loader import load_csvs, _stem_to_varname, _find_header_row, _detect_separator
@@ -46,6 +45,17 @@ def test_find_header_row_skips_metadata(tmp_path):
     assert _find_header_row(f, ",") == 2
 
 
+def test_find_header_row_beyond_30_rows(tmp_path):
+    """Header at row 50 (beyond old 30-row limit) should be found."""
+    f = tmp_path / "ib_large.csv"
+    # Write 48 metadata rows (3 cols each), then the real header at row 48
+    metadata = "Statement,Data,BrokerName\n" * 48
+    header = "DividendDetail,DataDiscriminator,Currency,Symbol,ReportDate,Gross,Withhold\n"
+    data = "DividendDetail,Data,Summary,CAD,BNS,20210428,9.0\n"
+    f.write_text(metadata + header + data, encoding="ISO-8859-1")
+    assert _find_header_row(f, ",") == 48
+
+
 def test_load_csvs_degiro_format(tmp_path):
     csv = tmp_path / "Account.csv"
     csv.write_text(
@@ -74,6 +84,7 @@ def test_load_csvs_ib_format(tmp_path):
     df = dfs["df_U15541068_2025_dividends"]
     assert "Symbol" in df.columns
     assert len(df) == 2
+    assert len(df.columns) == 7
 
 
 def test_load_csvs_empty_folder(tmp_path):
