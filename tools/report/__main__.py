@@ -19,7 +19,7 @@ def main() -> None:
     args = parser.parse_args()
 
     folder = Path(args.folder)
-    if not folder.exists():
+    if not folder.is_dir():
         print(f"Error: Folder not found: {folder}", file=sys.stderr)
         sys.exit(1)
 
@@ -38,9 +38,17 @@ def main() -> None:
         else Path(f"report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.md")
     )
 
-    dataframes = load_csvs(folder)
-    result = execute(args.description, dataframes)
-    write_report(result, args.description, args.folder, output_path)
+    try:
+        dataframes = load_csvs(folder)
+        result = execute(args.description, dataframes)
+        write_report(result, args.description, args.folder, output_path)
+    except (RuntimeError, ValueError) as e:
+        print(f"Error: {e}", file=sys.stderr)
+        sys.exit(1)
+    except Exception as e:
+        print(f"Error: Unexpected failure: {e}", file=sys.stderr)
+        sys.exit(1)
+
     print(f"Report written to {output_path}")
 
 
