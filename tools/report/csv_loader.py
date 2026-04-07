@@ -62,6 +62,7 @@ def load_csvs(folder: Path) -> dict[str, pd.DataFrame]:
             sep=sep,
             encoding="ISO-8859-1",
             on_bad_lines="skip",
+            index_col=False,
         )
         varname = _stem_to_varname(csv_file.stem)
         result[varname] = df
