@@ -100,4 +100,25 @@ class RealizedTransasctionInPlnCurrencyFieldsTest {
         assertThat(result.get(0).getCostInCurrency()).isCloseTo(11000f, within(0.01f));
         assertThat(result.get(0).getGainLostInCurrency()).isCloseTo(4000f, within(0.01f));
     }
+
+    @Test
+    void costInCurrency_for_partial_lot_sell() throws Exception {
+        // Buy 100 shares at $10, but only sell 60
+        Transaction buy = Transaction.builder()
+                .symbol("IBM").currency("USD")
+                .date(date("2023-06-01"))
+                .quantity(100f).price(10f).proceeds(-1000f).build();
+        Transaction sell = Transaction.builder()
+                .symbol("IBM").currency("USD")
+                .date(date("2024-03-15"))
+                .quantity(-60f).price(12f).proceeds(720f).build();
+
+        List<PLNTransaction> result = processor.processForYear(List.of(buy, sell), 2024);
+
+        assertThat(result).hasSize(1);
+        // cost = 60 * $10 = $600
+        assertThat(result.get(0).getCostInCurrency()).isCloseTo(600f, within(0.01f));
+        // gain = (60 * $12) - (60 * $10) = 720 - 600 = $120
+        assertThat(result.get(0).getGainLostInCurrency()).isCloseTo(120f, within(0.01f));
+    }
 }
