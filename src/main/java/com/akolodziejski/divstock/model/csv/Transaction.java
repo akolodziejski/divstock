@@ -30,6 +30,8 @@ public class Transaction {
     private float proceeds;
     //        10 = "Comm/Fee"
     private float fee;
+    // populated for IB transactions only; null for Degiro
+    private String listingExch;
 
     public String getId() {
         return symbol + "/" + currency;
