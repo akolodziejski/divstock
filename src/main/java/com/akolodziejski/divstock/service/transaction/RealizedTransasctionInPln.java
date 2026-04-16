@@ -46,9 +46,9 @@ public class RealizedTransasctionInPln implements TransactionsProcessor<PLNTrans
                 .filter(t -> t.getStatement().getDate().before(Common.getFirstDayForYear(year + 1)))
                 .collect(Collectors.toList());
 
-        for(PLNTransaction tran: inYearTransactions) {
-            log.info("{}|{}|{}",tran.getStatement().getDate(), tran.getStatement().getSymbol(), tran.getGainLost());
-        }
+        // for(PLNTransaction tran: inYearTransactions) {
+        //     log.info("{}|{}|{}",tran.getStatement().getDate(), tran.getStatement().getSymbol(), tran.getGainLost());
+        // }
 
         return inYearTransactions;
     }
@@ -77,12 +77,12 @@ public class RealizedTransasctionInPln implements TransactionsProcessor<PLNTrans
 
         float soldQuantity = Math.abs(sellTransaction.getQuantity());
 
-
         float plnTotal = 0;
         float plnTotalIncome = 0;
         float plnTotalCost = 0;
 
-
+        float currencyTotalCost = 0;
+        float currencyTotalIncome = 0;
 
         while(soldQuantity > 0) {
             Transaction headTransaction = currentStateQueue.peek(); // DO NOT REMOVE YET
@@ -112,12 +112,14 @@ public class RealizedTransasctionInPln implements TransactionsProcessor<PLNTrans
 
                 plnTotalCost += plnBuyCost;
                 plnTotalIncome += plnSellCost;
-
                 plnTotal += plnGainLost;
+
+                currencyTotalCost   += buyCost;
+                currencyTotalIncome += sellCost;
 
                 log.debug(sellTransaction.getSymbol() + ": GAIN/LOSS = " + gainLoss);
             } else {
-                log.warn(" SELL after SELL  calculations exception for " + sellTransaction.getSymbol());
+                log.warn(" SELL after SELL  calculations exception for {}", sellTransaction.getSymbol());
                 return PLNTransaction.builder()
                         .error(true)
                         .gainLost(0)
@@ -131,6 +133,8 @@ public class RealizedTransasctionInPln implements TransactionsProcessor<PLNTrans
                 .gainLost(plnTotal)
                 .cost(plnTotalCost)
                 .income(plnTotalIncome)
+                .costInCurrency(currencyTotalCost)
+                .gainLostInCurrency(currencyTotalIncome - currencyTotalCost)
                 .statement(sellTransaction)
                 .build();
     }
