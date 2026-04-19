@@ -93,12 +93,7 @@ class ExchangeIncomeCalculatorTest {
 
     @Test
     void null_listingExch_grouped_under_unknown() {
-        Transaction statement = Transaction.builder()
-                .symbol("XYZ").currency("USD").listingExch(null).build();
-        PLNTransaction nullExchange = PLNTransaction.builder()
-                .income(300f).cost(250f).gainLost(0).error(false).statement(statement).build();
-
-        setUp(List.of(nullExchange));
+        setUp(List.of(plnTx(null, 300f, 250f)));
 
         Map<String, ExchangeIncomeSummary> result = calculator.calculate(2024);
 
