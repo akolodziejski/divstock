@@ -1,9 +1,12 @@
 package com.akolodziejski.divstock.service.tax;
 
-import com.akolodziejski.divstock.model.csv.Transaction;
+import com.akolodziejski.divstock.model.reporter.ExchangeIncomeSummary;
 import com.akolodziejski.divstock.model.reporter.PLNTransaction;
+import com.akolodziejski.divstock.model.csv.Transaction;
 import com.akolodziejski.divstock.service.transaction.LocalCSVFilesTransactionProvider;
 import com.akolodziejski.divstock.service.transaction.RealizedTransasctionInPln;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +15,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class ExchangeIncomeCalculator {
+
+    private static final Logger log = LoggerFactory.getLogger(ExchangeIncomeCalculator.class);
 
     private final LocalCSVFilesTransactionProvider transactionProvider;
     private final RealizedTransasctionInPln realizedTransactionCalculator;
@@ -23,18 +28,23 @@ public class ExchangeIncomeCalculator {
         this.realizedTransactionCalculator = realizedTransactionCalculator;
     }
 
-    public Map<String, Double> calculate(int year) {
+    public Map<String, ExchangeIncomeSummary> calculate(int year) {
         List<Transaction> ibTransactions = transactionProvider.getIbTransactions();
         List<PLNTransaction> plnTransactions = realizedTransactionCalculator.processForYear(ibTransactions, year);
 
         return plnTransactions.stream()
                 .filter(t -> !t.isError())
-                .collect(Collectors.groupingBy(
+                .collect(Collectors.toMap(
                         t -> {
                             String exch = t.getStatement().getListingExch();
-                            return exch != null ? exch : "UNKNOWN";
+                            if (exch == null) {
+                                log.error("Missing listingExch for transaction: {}", t.getStatement());
+                                return "UNKNOWN";
+                            }
+                            return exch;
                         },
-                        Collectors.summingDouble(t -> t.getIncome())
+                        t -> new ExchangeIncomeSummary(t.getIncome(), t.getCost()),
+                        (a, b) -> new ExchangeIncomeSummary(a.income() + b.income(), a.cost() + b.cost())
                 ));
     }
 }
