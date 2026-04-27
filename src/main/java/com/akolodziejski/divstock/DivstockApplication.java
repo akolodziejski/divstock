@@ -1,5 +1,6 @@
 package com.akolodziejski.divstock;
 
+import com.akolodziejski.divstock.model.reporter.ExchangeIncomeSummary;
 import com.akolodziejski.divstock.model.reporter.PLNTransaction;
 import com.akolodziejski.divstock.model.tax.Profit;
 import com.akolodziejski.divstock.service.reporter.ExchangeIncomeReportWriter;
@@ -42,7 +43,7 @@ public class DivstockApplication implements CommandLineRunner {
         Profit profit = calculator.calculate(year);
         System.out.println(profit);
 
-        Map<String, Double> exchangeIncome = exchangeIncomeCalculator.calculate(year);
+        Map<String, ExchangeIncomeSummary> exchangeIncome = exchangeIncomeCalculator.calculate(year);
         new ExchangeIncomeReportWriter().write(exchangeIncome, year);
         System.out.println("Exchange income report written to output/exchange_income_" + year + ".csv");
 

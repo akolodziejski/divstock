@@ -1,5 +1,6 @@
 package com.akolodziejski.divstock.service.reporter;
 
+import com.akolodziejski.divstock.model.reporter.ExchangeIncomeSummary;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -20,19 +21,25 @@ class ExchangeIncomeReportWriterTest {
 
     @Test
     void writes_header_and_rows() throws IOException {
-        Map<String, Double> data = Map.of("NYSE", 12345.678, "TSE", 999.10);
+        Map<String, ExchangeIncomeSummary> data = Map.of(
+                "NYSE", new ExchangeIncomeSummary(12345.678, 10000.0)
+        );
 
         writer.write(data, 2024, tempDir.toString());
 
         Path output = tempDir.resolve("exchange_income_2024.csv");
         assertThat(output).exists();
         List<String> lines = Files.readAllLines(output);
-        assertThat(lines.get(0)).isEqualTo("Listing Exch,Income (PLN)");
+        assertThat(lines.get(0)).isEqualTo("Listing Exch,Income (PLN),Costs (PLN)");
     }
 
     @Test
     void rows_are_sorted_alphabetically_by_exchange() throws IOException {
-        Map<String, Double> data = Map.of("TSE", 200.0, "NYSE", 1000.0, "AEB", 500.0);
+        Map<String, ExchangeIncomeSummary> data = Map.of(
+                "TSE", new ExchangeIncomeSummary(200.0, 150.0),
+                "NYSE", new ExchangeIncomeSummary(1000.0, 800.0),
+                "AEB", new ExchangeIncomeSummary(500.0, 400.0)
+        );
 
         writer.write(data, 2024, tempDir.toString());
 
@@ -43,19 +50,23 @@ class ExchangeIncomeReportWriterTest {
     }
 
     @Test
-    void income_formatted_to_two_decimal_places() throws IOException {
-        Map<String, Double> data = Map.of("NYSE", 12345.678);
+    void income_and_cost_formatted_to_two_decimal_places() throws IOException {
+        Map<String, ExchangeIncomeSummary> data = Map.of(
+                "NYSE", new ExchangeIncomeSummary(12345.678, 9999.999)
+        );
 
         writer.write(data, 2024, tempDir.toString());
 
         List<String> lines = Files.readAllLines(tempDir.resolve("exchange_income_2024.csv"));
-        assertThat(lines.get(1)).isEqualTo("NYSE,12345.68");
+        assertThat(lines.get(1)).isEqualTo("NYSE,12345.68,10000.00");
     }
 
     @Test
     void output_directory_is_created_if_missing() throws IOException {
         Path nested = tempDir.resolve("nested/output");
-        Map<String, Double> data = Map.of("NYSE", 100.0);
+        Map<String, ExchangeIncomeSummary> data = Map.of(
+                "NYSE", new ExchangeIncomeSummary(100.0, 80.0)
+        );
 
         writer.write(data, 2025, nested.toString());
 
