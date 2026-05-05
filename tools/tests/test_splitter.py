@@ -126,3 +126,10 @@ def test_split_by_ranges_correct_page_count_in_output(tmp_path):
     out_file = next(tmp_path.glob("*.pdf"))
     r = PdfReader(str(out_file))
     assert len(r.pages) == 3
+
+
+def test_split_by_ranges_empty_segments_returns_zero(tmp_path):
+    reader = make_reader(5)
+    count = split_by_ranges(reader, tmp_path, [], 5)
+    assert count == 0
+    assert list(tmp_path.glob("*.pdf")) == []

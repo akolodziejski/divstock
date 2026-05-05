@@ -18,7 +18,7 @@ def split_by_pages(reader: PdfReader, output_dir: Path, total_pages: int) -> int
         writer = PdfWriter()
         writer.add_page(reader.pages[i])
         out_path = output_dir / _page_filename(i + 1, pad)
-        with open(out_path, "wb") as f:
+        with out_path.open("wb") as f:
             writer.write(f)
     return total_pages
 
