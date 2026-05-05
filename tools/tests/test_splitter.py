@@ -53,3 +53,8 @@ def test_parse_ranges_malformed_non_numeric():
 def test_parse_ranges_malformed_extra_dash():
     with pytest.raises(ValueError, match="Invalid range format"):
         parse_ranges("1-2-3", 10)
+
+
+def test_parse_ranges_range_start_out_of_bounds():
+    with pytest.raises(ValueError, match="out of range"):
+        parse_ranges("11-12", 10)

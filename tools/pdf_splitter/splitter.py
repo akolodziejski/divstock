@@ -2,11 +2,16 @@ from pathlib import Path
 from pypdf import PdfReader, PdfWriter
 
 
-def split_by_pages(reader: PdfReader, output_dir: Path) -> list[Path]:
+def split_by_pages(reader: PdfReader, output_dir: Path, total_pages: int) -> int:
     raise NotImplementedError
 
 
-def split_by_ranges(reader: PdfReader, ranges: list[tuple[int, int]], output_dir: Path) -> list[Path]:
+def split_by_ranges(
+    reader: PdfReader,
+    output_dir: Path,
+    segments: list[tuple[int, int]],
+    total_pages: int,
+) -> int:
     raise NotImplementedError
 
 
@@ -29,7 +34,7 @@ def parse_ranges(ranges_str: str, total_pages: int) -> list[tuple[int, int]]:
                 raise ValueError(f"Invalid range format: '{part}'")
             start = end = int(part)
         if start < 1 or end > total_pages:
-            bad = start if start < 1 else end
+            bad = start if start < 1 or start > total_pages else end
             raise ValueError(f"Page {bad} is out of range (PDF has {total_pages} pages)")
         segments.append((start, end))
     return segments
