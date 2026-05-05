@@ -29,7 +29,15 @@ def split_by_ranges(
     segments: list[tuple[int, int]],
     total_pages: int,
 ) -> int:
-    raise NotImplementedError
+    pad = len(str(total_pages))
+    for start, end in segments:
+        writer = PdfWriter()
+        for page_num in range(start, end + 1):
+            writer.add_page(reader.pages[page_num - 1])
+        out_path = output_dir / _range_filename(start, end, pad)
+        with out_path.open("wb") as f:
+            writer.write(f)
+    return len(segments)
 
 
 def parse_ranges(ranges_str: str, total_pages: int) -> list[tuple[int, int]]:

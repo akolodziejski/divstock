@@ -91,3 +91,38 @@ def test_split_by_pages_each_file_has_one_page(tmp_path):
     for pdf_file in tmp_path.glob("*.pdf"):
         r = PdfReader(str(pdf_file))
         assert len(r.pages) == 1
+
+
+# --- split_by_ranges ---
+
+def test_split_by_ranges_single_range_one_file(tmp_path):
+    reader = make_reader(100)
+    count = split_by_ranges(reader, tmp_path, [(10, 20)], 100)
+    assert count == 1
+    files = list(tmp_path.glob("*.pdf"))
+    assert len(files) == 1
+    assert files[0].name == "pages_010-020.pdf"
+
+
+def test_split_by_ranges_single_page_segment(tmp_path):
+    reader = make_reader(10)
+    split_by_ranges(reader, tmp_path, [(5, 5)], 10)
+    files = list(tmp_path.glob("*.pdf"))
+    assert len(files) == 1
+    assert files[0].name == "pages_05.pdf"  # pad=2 because total_pages=10
+
+
+def test_split_by_ranges_multiple_segments(tmp_path):
+    reader = make_reader(10)
+    count = split_by_ranges(reader, tmp_path, [(1, 3), (5, 5), (7, 10)], 10)
+    assert count == 3
+    names = sorted(p.name for p in tmp_path.glob("*.pdf"))
+    assert names == ["pages_01-03.pdf", "pages_05.pdf", "pages_07-10.pdf"]
+
+
+def test_split_by_ranges_correct_page_count_in_output(tmp_path):
+    reader = make_reader(10)
+    split_by_ranges(reader, tmp_path, [(2, 4)], 10)
+    out_file = next(tmp_path.glob("*.pdf"))
+    r = PdfReader(str(out_file))
+    assert len(r.pages) == 3
