@@ -2,8 +2,25 @@ from pathlib import Path
 from pypdf import PdfReader, PdfWriter
 
 
+def _page_filename(page_num: int, pad: int) -> str:
+    return f"page_{page_num:0{pad}d}.pdf"
+
+
+def _range_filename(start: int, end: int, pad: int) -> str:
+    if start == end:
+        return f"pages_{start:0{pad}d}.pdf"
+    return f"pages_{start:0{pad}d}-{end:0{pad}d}.pdf"
+
+
 def split_by_pages(reader: PdfReader, output_dir: Path, total_pages: int) -> int:
-    raise NotImplementedError
+    pad = len(str(total_pages))
+    for i in range(total_pages):
+        writer = PdfWriter()
+        writer.add_page(reader.pages[i])
+        out_path = output_dir / _page_filename(i + 1, pad)
+        with open(out_path, "wb") as f:
+            writer.write(f)
+    return total_pages
 
 
 def split_by_ranges(

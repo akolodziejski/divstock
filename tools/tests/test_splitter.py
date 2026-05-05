@@ -58,3 +58,36 @@ def test_parse_ranges_malformed_extra_dash():
 def test_parse_ranges_range_start_out_of_bounds():
     with pytest.raises(ValueError, match="out of range"):
         parse_ranges("11-12", 10)
+
+
+# --- split_by_pages ---
+
+def test_split_by_pages_creates_correct_number_of_files(tmp_path):
+    reader = make_reader(3)
+    count = split_by_pages(reader, tmp_path, 3)
+    assert count == 3
+    assert len(list(tmp_path.glob("*.pdf"))) == 3
+
+
+def test_split_by_pages_single_digit_padding(tmp_path):
+    reader = make_reader(5)
+    split_by_pages(reader, tmp_path, 5)
+    names = sorted(p.name for p in tmp_path.glob("*.pdf"))
+    assert names == ["page_1.pdf", "page_2.pdf", "page_3.pdf", "page_4.pdf", "page_5.pdf"]
+
+
+def test_split_by_pages_three_digit_padding(tmp_path):
+    reader = make_reader(100)
+    split_by_pages(reader, tmp_path, 100)
+    names = sorted(p.name for p in tmp_path.glob("*.pdf"))
+    assert names[0] == "page_001.pdf"
+    assert names[-1] == "page_100.pdf"
+    assert len(names) == 100
+
+
+def test_split_by_pages_each_file_has_one_page(tmp_path):
+    reader = make_reader(3)
+    split_by_pages(reader, tmp_path, 3)
+    for pdf_file in tmp_path.glob("*.pdf"):
+        r = PdfReader(str(pdf_file))
+        assert len(r.pages) == 1
